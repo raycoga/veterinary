@@ -9,21 +9,36 @@ class NewAppointment extends Component {
           date:'',
           time:'',
           conditions:''
-      }
+      },
+      error:true
   };
 
 handleChange = e =>{
-    console.log(`${e.target.name}: ${e.target.value}`)
+    const {pet, owner,date, time,conditions}= this.state.appointment
     this.setState({
         appointment:{
             ...this.state.appointment,[e.target.name]: e.target.value
         }
     })
+    if(pet==='' || owner ==='' || date==='' || time==='' || conditions===''){
+        this.setState({
+            error:true
+        })
+        return
+    }else{
+        this.setState({
+            error:false
+        })
+        return
+    }
 }
 
 handleSubmit = e=> {
     e.preventDefault()
-    console.log(this.state.appointment)
+       console.log(this.state.appointment)
+        //validando si todos los campos fueron completados
+      
+
 }
 
   render() {
@@ -34,7 +49,7 @@ handleSubmit = e=> {
             Fill up the form to create a new appointment
           </h2>
 
-          <form onSubmit={(e)=>this.handleSubmit(e)}>
+          <form onSubmit={e => this.handleSubmit(e)}>
             <div className="form-group row">
               <label className="col-sm-4 col-lg-2 col-form-label">
                 Pet name
@@ -107,7 +122,7 @@ handleSubmit = e=> {
                   </textarea>
               </div>
             </div> {/* Form group */}
-            <input type="submit" className="p-3 mt-2 btn btn-success btn-block" value="add new appointment"/>
+            <input disabled={this.state.error} type="submit" className="p-3 mt-2 btn btn-success btn-block" value="add new appointment"/>
              
           </form>
 
