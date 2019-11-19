@@ -2,7 +2,30 @@ import React, { Component } from 'react';
 import { isNull } from 'util';
 
 class NewAppointment extends Component {
-  state = {};
+  state = { 
+      appointment:{
+          pet:'',
+          owner:'',
+          date:'',
+          time:'',
+          conditions:''
+      }
+  };
+
+handleChange = e =>{
+    console.log(`${e.target.name}: ${e.target.value}`)
+    this.setState({
+        appointment:{
+            ...this.state.appointment,[e.target.name]: e.target.value
+        }
+    })
+}
+
+handleSubmit = e=> {
+    e.preventDefault()
+    console.log(this.state.appointment)
+}
+
   render() {
     return (
       <div className="card mt-5 p-5">
@@ -11,7 +34,7 @@ class NewAppointment extends Component {
             Fill up the form to create a new appointment
           </h2>
 
-          <form>
+          <form onSubmit={(e)=>this.handleSubmit(e)}>
             <div className="form-group row">
               <label className="col-sm-4 col-lg-2 col-form-label">
                 Pet name
@@ -22,6 +45,8 @@ class NewAppointment extends Component {
                   className="form-control"
                   placeholder="Pet Name"
                   name="pet"
+                  onChange={this.handleChange}
+                  value={this.state.appointment.pet}
                 />
               </div>
             </div> {/* Form group */}
@@ -35,6 +60,8 @@ class NewAppointment extends Component {
                   className="form-control"
                   placeholder="Owner Name"
                   name="owner"
+                  onChange={this.handleChange}
+                  value={this.state.appointment.owner}
                 />
               </div>
             </div> {/* Form group */}
@@ -46,7 +73,9 @@ class NewAppointment extends Component {
                 <input
                   type="date"
                   className="form-control"
-                  name="appointment"
+                  name="date"
+                  onChange={this.handleChange}
+                  value={this.state.appointment.date}
                 />
               </div>
            
@@ -58,6 +87,8 @@ class NewAppointment extends Component {
                   type="time"
                   className="form-control"
                   name="time"
+                  onChange={this.handleChange}
+                  value={this.state.appointment.time}
                 />
               </div>
             </div> {/* Form group */}
@@ -70,6 +101,8 @@ class NewAppointment extends Component {
                   className="form-control"
                   placeholder="Describe conditions"
                   name="conditions"
+                  onChange={this.handleChange}
+                  value={this.state.appointment.conditions}
                   >
                   </textarea>
               </div>
