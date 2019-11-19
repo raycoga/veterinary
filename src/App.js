@@ -8,6 +8,7 @@ class App extends Component {
 
   }
   render() {
+    /* Clase */
     return (
       <div className="container">
         <Header
