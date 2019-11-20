@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from 'prop-types'
 
 const Appointments = ({ Appoinments, removeAppointment }) => {
   if (Appoinments.length <= 0) {
@@ -12,11 +13,11 @@ const Appointments = ({ Appoinments, removeAppointment }) => {
   } else {
     return (
       <Fragment>
-        {Appoinments.map((res, key) => {
+        {Appoinments.map((res) => {
           console.log(res);
           return (
-            <div className="card mb-3">
-              <table class="table table-borderless text-center" key={res.id}>
+            <div className="card mb-3"  key={res.id}>
+              <table className="table table-borderless text-center">
                 <thead>
                   <tr>
                     <th scope="col">Pet name</th>
@@ -29,7 +30,7 @@ const Appointments = ({ Appoinments, removeAppointment }) => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td scope="row">{res.pet}</td>
+                    <td >{res.pet}</td>
                     <td>{res.owner}</td>
                     <td>{res.date}</td>
                     <td>{res.time}</td>
@@ -37,10 +38,11 @@ const Appointments = ({ Appoinments, removeAppointment }) => {
                     <td>
                       <button
                         type="buttons"
-                        className="btn btn-success"
+                        className="btn btn-danger"
                         onClick={() => removeAppointment(res.id)}
                       >
                         Remove Appointment
+                        &times;
                       </button>
                     </td>
                   </tr>
@@ -54,4 +56,9 @@ const Appointments = ({ Appoinments, removeAppointment }) => {
   }
 };
 
+Appointments.propTypes={
+    Appoinments:PropTypes.array.isRequired,
+    removeAppointment:PropTypes.func.isRequired
+  }
+  
 export default Appointments;

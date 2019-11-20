@@ -1,43 +1,56 @@
-import React, { Component } from 'react';
-import './bootstrap.min.css'
-import Header from './components/Header'
-import NewAppointment from './components/NewAppointment'
-import Appointment from './components/Appointments'
+import React, { Component } from "react";
+import "./bootstrap.min.css";
+import Header from "./components/Header";
+import NewAppointment from "./components/NewAppointment";
+import Appointment from "./components/Appointments";
 class App extends Component {
-  state={
-      Appoinments:[]
+  state = {
+    Appoinments: []
+  };
+  /* Cuando la aplicacion carga */
+  componentDidMount() {
+    const AppointmentsLS = localStorage.getItem("Appoinments");
+    if (AppointmentsLS) {
+      this.setState({
+        Appoinments: JSON.parse(AppointmentsLS)
+      });
+    }
+  }
+  /* cuando eliminamos o agregamos una nueva cita se activara esto */
+  componentDidUpdate() {
+    localStorage.setItem("Appoinments", JSON.stringify(this.state.Appoinments));
   }
 
   createNewAppointment = data => {
-    let array=[...this.state.Appoinments,data]
-    this.setState({Appoinments:array})
-  }
+    let array = [...this.state.Appoinments, data];
+    this.setState({ Appoinments: array });
+  };
 
-  removeAppointment = id =>{
-    let array=[...this.state.Appoinments]
-    array.splice(id,1)
-    this.setState({Appoinments:array})
-  }
+  removeAppointment = id => {
+    let array = [...this.state.Appoinments];
+    array.splice(id, 1);
+    this.setState({ Appoinments: array });
+  };
 
   render() {
     /* Clase */
     return (
       <div className="container">
-        <Header
-        title='Veterinary Patient Administrator'
-        />
+        <Header title="Veterinary Patient Administrator" />
         <div className="row pb-5">
           <div className="col-md-10 mx-auto">
-          <NewAppointment createNewAppointment={this.createNewAppointment}/>
+            <NewAppointment createNewAppointment={this.createNewAppointment} />
           </div>
         </div>
         <div className="row">
           <div className="col-md-10 mx-auto">
-            <Appointment Appoinments={this.state.Appoinments} removeAppointment={this.removeAppointment}/>
+            <Appointment
+              Appoinments={this.state.Appoinments}
+              removeAppointment={this.removeAppointment}
+            />
           </div>
         </div>
       </div>
-
     );
   }
 }
