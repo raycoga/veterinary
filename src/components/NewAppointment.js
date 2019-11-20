@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-import { isNull } from 'util';
-
-class NewAppointment extends Component {
-  state = { 
-      appointment:{
+import uuid from 'uuid'
+const initialState={appointment:{
           pet:'',
           owner:'',
           date:'',
           time:'',
           conditions:''
       },
-      error:true
+      error:true}
+class NewAppointment extends Component {
+  state = { 
+      ...initialState
   };
 
 handleChange = e =>{
-    const {pet, owner,date, time,conditions}= this.state.appointment
+    const {pet, owner,date, time,conditions}= this.state.appointment /* esto se realiza para verificar si los datos estan vacios o no */
+
     this.setState({
         appointment:{
-            ...this.state.appointment,[e.target.name]: e.target.value
+            ...this.state.appointment,[e.target.name]: e.target.value /* aca se copia el estado actual del estado, y luego se apunta al nombre del atributo
+                                                                        usando los [corchetes] eh ingresando su nombre en el interior para guardar el value   que posea el input en ese momento en este caso lo que sucede es lo siguiente:
+                                                                        pet:a donde pet se convierte en la variable e.target.name rodeada de corchetes y la a que pasa a ser e.target.value*/
         }
     })
+
     if(pet==='' || owner ==='' || date==='' || time==='' || conditions===''){
         this.setState({
             error:true
@@ -35,10 +39,10 @@ handleChange = e =>{
 
 handleSubmit = e=> {
     e.preventDefault()
-       console.log(this.state.appointment)
-        //validando si todos los campos fueron completados
-      
-
+    const newAppointment ={...this.state.appointment}/* copia el estado */
+    newAppointment.id=uuid()/* le añade un id unico */
+    this.props.createNewAppointment(newAppointment) /* le pasa los parametros del estado a la funcion padre */
+    this.setState({...initialState}) /* y se resetea el estado, con los parametros iniciales */
 }
 
   render() {
